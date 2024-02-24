@@ -6,11 +6,13 @@
 
 Arch Linux Install Script (or alis, also known as _the Arch Linux executable installation guide and wiki_) installs an unattended, automated and customized Arch Linux system.
 
-It is a simple Bash script developed from many Arch Linux Wiki pages that fully automates the installation of an [Arch Linux](https://archlinux.org/) system after booting from the original Arch Linux installation media. It contains the same commands that you would type and execute one by one interactively to complete the installation. The only user intervention needed is to edit a configuration file to choose the installation options and preferences from partitioning, to encryption, bootloader, file system, language and keyboard mapping, desktop environment, kernels, packages to install and graphic drivers. This automation makes the installation easy and fast, as fast as your internet connection allows.
+alis is a simple Bash script developed from many Arch Linux Wiki pages that fully automates the installation of an [Arch Linux](https://archlinux.org/) system after booting from the original Arch Linux installation media.
+
+It contains the same commands that you would type and execute one by one interactively to complete the installation. The only user intervention needed is to edit a configuration file to choose the installation options and preferences from partitioning, to encryption, bootloader, file system, language and keyboard mapping, desktop environment, kernels, packages to install and graphic drivers. This automation makes the installation easy and fast, as fast as your internet connection allows.
 
 If some time later after a system update, for any reason the system does not boot correctly, a recovery script is also provided to enter into a recovery mode that allows you to downgrade packages or execute any other commands to restore the system. Also, a log of the installation can be taken with <a href="https://asciinema.org/">asciinema</a>.
 
-A simple powerful Bash based script for an unattended, easy and fast way to install Arch Linux.
+A simple powerful Bash based script for an unattended, easy and fast way to install Arch Linux.<br>
 Boot. Get. Configure. Install. Enjoy.
 
 **Warning! This script can delete all partitions of the persistent storage. It is recommended to test it first in a virtual machine like <a href="https://www.virtualbox.org/">VirtualBox</a>.**
@@ -32,7 +34,7 @@ For new features, improvements and bugs, fill an issue in GitHub or make a pull 
 * [Principles](https://github.com/picodotdev/alis#principles)
 * [Features](https://github.com/picodotdev/alis#features)
 * [System installation](https://github.com/picodotdev/alis#system-installation)
-* [Packages installation](https://github.com/picodotdev/alis#packages-installation)
+* [Package installation](https://github.com/picodotdev/alis#packages-installation)
 * [Recovery](https://github.com/picodotdev/alis#recovery)
 * [SSH install and cloud-init](https://github.com/picodotdev/alis#ssh-install-and-cloud-init)
 * [Screenshots](https://github.com/picodotdev/alis#screenshots)
@@ -47,7 +49,7 @@ For new features, improvements and bugs, fill an issue in GitHub or make a pull 
 ## Principles
 
 * Use the original Arch Linux installation media
-* As much unattended and automated as possible, require as little interactivity as possible
+* As unattended and automated as possible, requires as little interactivity as possible
 * Allow to customize the installation to cover the most common cases
 * Provide support for system recovery
 * Provide support for installation log
@@ -60,24 +62,26 @@ For new features, improvements and bugs, fill an issue in GitHub or make a pull 
 * **Encryption**: root partition encrypted and no encrypted
 * **Partition**: no LVM, LVM, LVM on LUKS, GPT on UEFI, MBR on BIOS, custom partition scheme and mountpoints
 * **File system**: ext4, btrfs (with subvols), xfs, f2fs, reiserfs
-* **Kernels**: linux, linux-lts, linux-hardened, linux-zen
+* **Kernels**: linux, linux-lts, linux-hardened, linux-zen. Supports Unified Kernel Image (UKI).
 * **Desktop environment**: GNOME, KDE, XFCE, Mate, Cinnamon, LXDE, i3-wm, i3-gaps, Deepin, Budgie, Bspwm, Awesome, Qtile, Openbox, Leftwm, Dusk
 * **Display managers**: GDM, SDDM, Lightdm, lxdm
 * **Graphics controller**: intel, nvidia and amd with optionally early KMS start. With intel optionally fastboot, hardware video acceleration and framebuffer compression.
-* **Bootloader**: GRUB, rEFInd, systemd-boot
+* **Bootloader**: GRUB, rEFInd, systemd-boot, efistub
 * **Custom shell**: bash, zsh, dash, fish
 * **WPA WIFI network** installation
 * **Periodic TRIM** for SSD storage
 * Intel and AMD **processors microcode**
 * Optional **swap file**
-* **VirtualBox guest additions** and **VMware tools** support
+* **PipeWire** support
+* **Secure Boot** support
 * **Kernel compression** and **custom parameters**
 * **Users creation** and **add to sudoers**
 * **systemd units enable or disable**
 * **systemd-homed** support
-* **PipeWire** support
+* **systemd GPT partition automounting** support
 * **Multilib** support
 * **Files provision** support
+* **VirtualBox guest additions** and **VMware tools** support
 * **SSH install** and **cloud-init** support
 * Arch Linux custom **packages installation** and **repositories installation**
 * Flatpak utility installation and **Flatpak packages installation**
@@ -100,7 +104,7 @@ Follow the <a href="https://wiki.archlinux.org/title/Arch_Linux">Arch Way</a> of
 
 Internet connection is required, with wireless WIFI connection see <a href="https://wiki.archlinux.org/title/Wireless_network_configuration#Wi-Fi_Protected_Access">Wireless_network_configuration</a> to bring up WIFI connection before start the installation.
 
-Minimum usage
+**Minimum usage**
 
 ```
 #                         # Start the system with latest Arch Linux installation media
@@ -110,7 +114,7 @@ Minimum usage
 # ./alis.sh               # Start installation
 ```
 
-Advanced usage
+**Advanced usage**
 
 ```
 #                         # Start the system with latest Arch Linux installation media
@@ -127,7 +131,7 @@ Advanced usage
 # ./alis-reboot.sh        # (Optional) Reboot the system, only necessary when REBOOT="false"
 ```
 
-## Packages installation
+## Package installation
 
 After the base Arch Linux system is installed, alis can install packages with pacman, Flatpak, SDKMAN and from AUR.
 
@@ -180,7 +184,7 @@ $ ./alis-cloud-init-ssh.sh -i "${IP_ADDRESS}" -c "alis-config-efi-ext4-systemd.s
 
 ## Screenshots
 
-Once the installation ends you have a ready to use system with your choosen preferences including all the free software latest version you wish to do produtive task from browsing, multimedia and office programs, to programming languages, compilers and server software and tools for creative and artistic tasks.
+Once the installation ends, you will have a ready to use system with your choosen preferences including all the free software latest version you wish to do produtive task from browsing, multimedia and office programs, to programming languages, compilers and server software and tools for creative and artistic tasks.
 
 These are some desktop environments that can be installed.
 
@@ -227,11 +231,12 @@ Also, if you prefer to install an Arch Linux using a guided graphical installer 
 * [ArcoLinux](https://arcolinux.com/)
 * [Manjaro](https://manjaro.org/)
 * [EndeavourOS](https://endeavouros.com/)
+* [GarudaLinux](https://garudalinux.org/)
 * [Archlabs](https://archlabslinux.com/)
 * [RebornOS](https://rebornos.org/)
 * [BlackArch](https://blackarch.org/)
 
-Also and recomended for new Arch Linux new comers follow the Arch Way of doing things is a good way to use and learn about Arch. There are many guides out here, the official Arch Linux installation guide the first one. These are other good ones that explains step by step from instalation media creation to first boot and programs installation, all the necessary to start.
+Also and recommended for new Arch Linux newcomers to follow the Arch Way of doing things is a good way to use and learn about Arch. There are many guides out there, the official Arch Linux installation guide the first one. These are other good ones that explains step by step from instalation media creation to first boot and programs installation, all the necessary to start.
 
 * [The Arch Linux Handbook](https://www.freecodecamp.org/news/how-to-install-arch-linux/)
 
@@ -320,10 +325,12 @@ https://www.archlinux.org/download/
 * https://wiki.archlinux.org/title/Qtile
 * https://wiki.archlinux.org/title/REFInd
 * https://wiki.archlinux.org/title/Reflector
+* https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot
 * https://wiki.archlinux.org/title/Solid_state_drive/NVMe
 * https://wiki.archlinux.org/title/Solid_State_Drives
 * https://wiki.archlinux.org/title/Swap
 * https://wiki.archlinux.org/title/Systemd
+* https://wiki.archlinux.org/title/Systemd#GPT_partition_automounting
 * https://wiki.archlinux.org/title/Systemd-boot
 * https://wiki.archlinux.org/title/Systemd-homed
 * https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface
